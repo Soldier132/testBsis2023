@@ -172,9 +172,8 @@ ________________________________________________________________________________
 		if ($que[$i]!=0) {
 			$num = $num+1;
 			echo '<br><br><b>Вопрос №'.$num.'</b><br>';
-			$slots = mysqli_query('SELECT * FROM `mdl_question_attempts` WHERE `slot`='.$que[$i]);
-			while ($row_slots = mysqli_fetch_assoc($slots)) {
-		
+			$slots = mysqli_query($conn, 'SELECT * FROM `mdl_question_attempts` WHERE `slot`='.$que[$i]);
+			while ($row_slots = mysqli_fetch_assoc($slots_query)) {
 				$step = mysqli_query('SELECT * FROM `mdl_question_attempt_steps` WHERE `userid`='.$userid.' AND `questionattemptid`='.$row_slots['id']);
 				while ($row_step = mysqli_fetch_assoc($step)) {
 					if ($row_step['state'] == 'gradedwrong') {
