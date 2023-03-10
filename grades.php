@@ -2,6 +2,7 @@
     setlocale(LC_ALL, 'ru_RU.UTF-8');
     echo '<html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><style media="print" type="text/css">.noprint {display: none;}}</style></head><body style="margin-left: 100;">';
     $link = mysqli_connect('localhost:3311', 'moodleuser', 'moodle', 'moodle');
+	$conn = mysqli_connect('localhost:3311', 'moodleuser', 'moodle', 'moodle');
     if (!$link) {
         die('Ошибка подключения (' . mysqli_connect_errno() . ') '
             . mysqli_connect_error());
@@ -13,7 +14,7 @@
 
 if (is_numeric($_GET['attempt'])) {
 	echo '<span class="noprint"><center><p><input type="button" value="Назад" onClick="window.location=\'./quiz/review.php?attempt=' . $_GET['attempt'] . '\'"><input type="button" value="Печать" onclick="javascript:print()"></input></p></center></span>';
-	$result = mysqli_query('SELECT * FROM `mdl_quiz_attempts` WHERE `id`='.$_GET['attempt']);
+	$result = mysqli_query($conn, 'SELECT * FROM `mdl_quiz_attempts` WHERE `id`='.$_GET['attempt']);
 	$row = mysqli_fetch_assoc($result);
 	$userid = $row['userid'];
 	$questions  = $row['layout'];
@@ -31,6 +32,7 @@ if (is_numeric($_GET['attempt'])) {
 	$per = $sumgrades_usr/$sumgrades_quiz*100;
 	if ($per >= 75) {$grade='Отлично';} elseif ($per >= 60 && $per < 75) {$grade='Хорошо';} elseif ($per >= 50 && $per < 60) {$grade='Удовлетворительно';} else {$grade='Неудовлетворительно';} ;
 	echo
+	
 '<tt><font size="12px">
 <div align="center">
 				<b>ПРОТОКОЛ № _________
